@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri     : ${MONGO_URL:mongodb://192.168.99.100:27017}
+      database: ${MONGO_DBNAME:myguide}
+logging.file: ${LOGS_DIR:./logs/application.log}
+logging:
+  level:
+    ROOT: INFO
+    org.springframework: ERROR
+    org.springframework.data: ERROR
+    org.mongodb: ERROR
+  file: 
+    max-history: 90
+    max-size: 10MB

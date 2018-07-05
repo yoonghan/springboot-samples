@@ -1,0 +1,27 @@
+version: "2.1"
+services:
+  myguide-db:
+    image: mongodbimage
+    container_name: "sample-db"
+    volumes:
+      - ./db:/data/db
+    restart: always
+    ports:
+      - 27017:27017
+    command: --smallfiles
+
+
+# APP  ***************************************************************************************
+  myguide-microservices:
+    image: sample-microservice
+    container_name: "sample-microservice"
+    #~/logs will write application log to your user relative path eg. /c/Users/{username}/
+    volumes:
+      - ~/logs:/home/javarun/logs
+    ports:
+      - 8080:8080
+    links:
+      - myguide-db
+    depends_on:
+        - myguide-db
+    entrypoint: "java -Dspring.data.mongodb.uri=mongodb://sample/sample-db -Djava.security.egd=file:/dev/./urandom -jar ./app.jar"
